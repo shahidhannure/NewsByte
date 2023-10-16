@@ -1,33 +1,53 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import NewsCard from './NewsCard';
+import { Link } from 'react-router-dom';
 
 const NewsList = () => {
   const [news, setNews] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchNews = async () => {
       try {
         const response = await axios.get('https://news.google.com/rss');
         // Parse the XML response and set the articles in the 'news' state.
-        // You'll need to implement this XML parsing part.
         const articles = parseXMLResponse(response.data);
         setNews(articles);
+        setLoading(false);
       } catch (error) {
-        console.error('Error fetching news:', error);
+        setError(error);
+        setLoading(false);
       }
     };
 
     fetchNews();
   }, []);
 
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error.message}</div>;
+  }
+
   return (
     <div className="news-list">
       {news.map((article) => (
-        <NewsCard key={article.id} article={article} />
+        <Link to={`/article/${article.id}`} key={article.id}>
+          <div className="news-card">
+            <h2>{article.title}</h2>
+          </div>
+        </Link>
       ))}
     </div>
   );
 };
 
 export default NewsList;
+
+// Parse XML response function (replace with your own implementation).
+function parseXMLResponse(xmlData) {
+  // Implement your XML parsing logic here.
+}
