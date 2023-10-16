@@ -1,0 +1,26 @@
+/* styles.css */
+
+.App {
+  text-align: center;
+  padding: 20px;
+}
+
+.news-list {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 20px;
+}
+
+.news-card {
+  border: 1px solid #ccc;
+  padding: 20px;
+  cursor: pointer;
+}
+
+.news-card:hover {
+  background-color: #f0f0f0;
+}
+
+.news-detail {
+  padding: 20px;
+}
